@@ -1,0 +1,4 @@
+# visuals/settings.py
+BG_COLOR = "#19233c"
+BORDER_COLOR = "#FFFFFF"
+HEADER_BG_COLOR = "#1E90FF"
