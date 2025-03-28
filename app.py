@@ -1,4 +1,5 @@
 # app.py
+# Start menu
 import customtkinter as ctk
 from visuals.settings import BG_COLOR
 from widgets import Notes_Logic, Modules_Semester_Logic, ToDo_Logic, Key_Metrics_Logic, Grade_Development_Logic
