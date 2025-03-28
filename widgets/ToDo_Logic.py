@@ -3,7 +3,7 @@ import customtkinter as ctk
 import tkinter as tk
 from CTkMessagebox import CTkMessagebox
 from DataHandler_Studium import Studies
-from DataHandler_ToDos_LernStreak import ToDoList, ToDo
+from DataHandler_ToDos_LearnStreak import ToDoList, ToDo
 from visuals.settings import BG_COLOR
 
 class ToDoApp(ctk.CTkFrame):
