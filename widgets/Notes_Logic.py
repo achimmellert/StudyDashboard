@@ -3,12 +3,15 @@ import customtkinter as ctk
 import os
 from visuals.settings import BG_COLOR
 
-FILE_DIRECTORY = '../data_files'
-os.makedirs(FILE_DIRECTORY, exist_ok=True)
+# Pfad zum übergeordneten Verzeichnis des Skripts
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))  # Verzeichnis von Notes_Logic.py
+PARENT_DIR = os.path.dirname(SCRIPT_DIR)  # Eine Ebene höher
+FILE_DIRECTORY = os.path.join(PARENT_DIR, 'data_files')  # data_files im übergeordneten Ordner
+os.makedirs(FILE_DIRECTORY, exist_ok=True)  # Erstellt den Ordner, falls er nicht existiert
 
 def get_file_path(tab):
     filename = f"tab{tab}.txt"
-    return os.path.abspath(os.path.join(FILE_DIRECTORY, filename))
+    return os.path.join(FILE_DIRECTORY, filename)
 
 class NoteApp(ctk.CTkFrame):
     def __init__(self, parent):

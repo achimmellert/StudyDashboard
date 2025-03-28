@@ -3,7 +3,7 @@ import os.path
 import customtkinter as ctk
 from DataHandler_Studium import Studies
 from visuals.settings import BG_COLOR, BORDER_COLOR, HEADER_BG_COLOR
-from DataHandler_ToDos_LernStreak import LernStreak
+from DataHandler_ToDos_LearnStreak import LearnStreak
 
 FILE_DIRECTORY = '../data_files'
 os.makedirs(FILE_DIRECTORY, exist_ok=True)
@@ -15,7 +15,7 @@ class KeyMetricsApp(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent, fg_color=BG_COLOR)
         self.studium = Studies()
-        self.lern_streak_manager = LernStreak()  # Neue Instanz von LernStreak
+        self.lern_streak_manager = LearnStreak()  # Neue Instanz von LernStreak
         self.gpa = self.studium.get_gpa()
         self.lern_streak = self.lern_streak_manager.learn_streak  # Zugriff auf den Wert
         self.header = ctk.CTkLabel(
