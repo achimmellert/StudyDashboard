@@ -60,3 +60,8 @@ class Toast(ctk.CTkToplevel):
         self.lift()
         self.attributes("-topmost", True)
         self.after(3000, self.destroy)
+
+
+if __name__ == '__main__':
+    app = App()
+    app.mainloop()
