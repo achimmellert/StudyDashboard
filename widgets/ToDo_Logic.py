@@ -7,10 +7,15 @@ from DataHandler_ToDos_LearnStreak import ToDoList, ToDo
 from visuals.settings import BG_COLOR
 
 class ToDoApp(ctk.CTkFrame):
+    """
+    Definiert den Aufbau des To-Do-Widgets in der App.
+    """
     def __init__(self, parent):
         super().__init__(master=parent, fg_color=BG_COLOR)
-        self.studium = Studies()
-        self.todos = ToDoList()
+        self.studium = Studies() # Studies-Instanz für dessen Methoden
+        self.todos = ToDoList() # ToDoList-Instanz für dessen Methoden
+
+        # Konfiguration der Widgets
         self.header = ctk.CTkLabel(
             self,
             corner_radius=10,
@@ -35,8 +40,11 @@ class ToDoApp(ctk.CTkFrame):
         AddToDoWindow(self, self.studium)
 
     def save_new_todo(self, description, module, time, is_done=False):
+        """
+        Speichert das neue To-Do ab.
+        """
         new_todo = ToDo(description, module, time, is_done)
-        self.todos.add_todo(new_todo)
+        self.todos.add_todo(new_todo) # ToDo-Klasse sorgt auch direkt für dauerhafte Speicherung als JSON.
         self.refresh_todos()
         CTkMessagebox(title='Info', message='Neues To-Do erfolgreich gespeichert', icon='info')
 
@@ -49,6 +57,10 @@ class ToDoApp(ctk.CTkFrame):
         self.place_todos()
 
     def place_todos(self):
+        """
+        Platziert alle To-Dos im Frame in einer ansprechenden Form.
+        :return: None
+        """
         for widget in self.todo_widgets:
             widget.destroy()
         self.todo_widgets = []
@@ -71,18 +83,27 @@ class ToDoApp(ctk.CTkFrame):
 
 
 class AddToDoWindow(ctk.CTkToplevel):
+    """
+    Fenster, welches sich öffnet, wenn man ein neues To-Do hinzufügen möchte.
+    """
     def __init__(self, todoapp: ToDoApp, studium: Studies):
         super().__init__()
         self.todoapp = todoapp
         self.studium = studium
+
+        # Konfiguration des Frames
         self.geometry('400x300')
         self.title('Neues To-Do hinzufügen')
         self.resizable(False, False)
         self.overrideredirect(True)
+
+        # Tkinter-Variablen
         self.description_var = tk.StringVar()
         self.module_var = tk.StringVar()
         self.time_var = tk.StringVar()
         module_names = [module.name for module in self.studium.get_all_modules()]
+
+        # Konfiguration der Widgets
         ctk.CTkLabel(self, text='Beschreibung:').pack(pady=(10, 0))
         self.description_entry = ctk.CTkEntry(self, textvariable=self.description_var)
         self.description_entry.pack(fill='x', padx=10)
@@ -100,6 +121,10 @@ class AddToDoWindow(ctk.CTkToplevel):
         save_button.pack(side='bottom', pady=15)
 
     def save_todo(self):
+        """
+        Speichert das eingegebene To-Do ab und löscht die Einträge.
+        :return: None
+        """
         description = self.description_var.get()
         module = self.module_var.get()
         time = self.time_var.get()

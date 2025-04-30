@@ -14,6 +14,9 @@ def get_file_path(tab):
     return os.path.join(FILE_DIRECTORY, filename)
 
 class NoteApp(ctk.CTkFrame):
+    """
+    Definiert den Aufbau des Notiz-Widgets in der App.
+    """
     def __init__(self, parent):
         super().__init__(master=parent, fg_color=BG_COLOR)
         self.header = ctk.CTkLabel(self, corner_radius=10, anchor='center', height=50, text=' Allgemeine Notizen',
@@ -21,6 +24,7 @@ class NoteApp(ctk.CTkFrame):
         self.header.pack(side='top', fill='both', pady=10, padx=10)
         self.notebook = ctk.CTkTabview(self, fg_color='transparent')
         self.notebook.pack(expand=True, fill="both")
+        # Besteht aus 2 Tabs.
         self.notebook.add("Tab 1")
         self.notebook.add("Tab 2")
         self.tab1 = Tab(self.notebook.tab("Tab 1"), get_file_path(1), 'Tab 1')
@@ -29,6 +33,9 @@ class NoteApp(ctk.CTkFrame):
         self.tab2.pack(expand=True, fill="both")
 
 class Tab(ctk.CTkFrame):
+    """
+    Klasse für jedes der beiden Tabs aus der Notiz-App. Entspricht jeweils einer einfachen Tkinter-Textbox.
+    """
     def __init__(self, parent, file_path, note_title):
         super().__init__(master=parent, fg_color=BG_COLOR)
         self.file_path = file_path
@@ -38,6 +45,11 @@ class Tab(ctk.CTkFrame):
         self.load_note()
 
     def auto_save(self, event=None):
+        """
+        Sobald Änderungen vorgenommen werden im Textfeld, werden diese automatisch und sofort gespeichert.
+        :param event:
+        :return: None
+        """
         if self.textbox.edit_modified():
             text = self.textbox.get("1.0", "end").strip()
             with open(self.file_path, "w", encoding="utf-8") as file:

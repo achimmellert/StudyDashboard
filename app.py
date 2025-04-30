@@ -6,8 +6,13 @@ from widgets import Notes_Logic, Modules_Semester_Logic, ToDo_Logic, Key_Metrics
 
 
 class App(ctk.CTk):
+    """
+    Übergeordnete Klasse, welche das Hauptfenster darstellt. Auf diesem werden alle weiteren Widgets platziert.
+    """
     def __init__(self):
         super().__init__()
+
+        # Konfiguration der eigentlichen App
         self.title('Mein Dashboard fürs Studium')
         self.geometry('1600x1100')
         self.configure(fg_color=BG_COLOR)
@@ -16,12 +21,18 @@ class App(ctk.CTk):
         self.columnconfigure(2, weight=1)
         self.rowconfigure(0, weight=1)
         self.rowconfigure(1, weight=5)
+
+        # Direkte Ausführung der Methoden
         self.create_frames()
         self.create_widgets()
         self.place_widgets()
         self.show_toast()
 
     def create_frames(self):
+        """
+        Erstellt und platziert die Frames für die App
+        :return: None
+        """
         self.left_frame = ctk.CTkFrame(self, fg_color='white')
         self.left_frame.grid(row=0, column=0, rowspan=2, sticky='nsew', padx=10, pady=10)
         self.top_frame = ctk.CTkFrame(self, fg_color='white')
@@ -32,6 +43,10 @@ class App(ctk.CTk):
         self.right_frame.grid(row=0, column=2, rowspan=2, sticky='nsew', padx=10, pady=10)
 
     def create_widgets(self):
+        """
+        Erstellt alle Instanzen der einzelnen Apps
+        :return: None
+        """
         self.notepad = Notes_Logic.NoteApp(self.top_frame)
         self.semester_progress = Modules_Semester_Logic.SemesterProgressApp(self.top_frame)
         self.to_do = ToDo_Logic.ToDoApp(self.left_frame)
@@ -39,6 +54,10 @@ class App(ctk.CTk):
         self.grade_development = Grade_Development_Logic.GradeDevelopmentApp(self.bottom_frame)
 
     def place_widgets(self):
+        """
+        Platziert die erstellten Instanzen einfach mit pack()
+        :return: None
+        """
         self.notepad.pack(side='left', expand=True, fill='both', padx=5, pady=5)
         self.semester_progress.pack(side='right', expand=True, fill='both', padx=5, pady=5)
         self.to_do.pack(expand=True, fill='both', padx=5, pady=5)
@@ -46,17 +65,25 @@ class App(ctk.CTk):
         self.grade_development.pack(expand=True, fill='both', padx=20, pady=20)
 
     def show_toast(self):
+        """
+        Zeigt zu Beginn ein Willkommens-Toast an.
+        :return: None
+        """
         Toast(self)
 
 
 class Toast(ctk.CTkToplevel):
+    """
+    Da CTk kein eigenes Toast-Widget hat, wird hiermit manuell eines erstellt.
+    """
     def __init__(self, parent):
         super().__init__(parent)
         self.title('')
         self.resizable(False, False)
         self.overrideredirect(True)
         message = 'Willkommen 👾'
-        label = ctk.CTkLabel(self, text=message, text_color="white", corner_radius=20, bg_color='#19233c', font=('Arial', 50, 'bold'))
+        label = ctk.CTkLabel(self, text=message, text_color="white", corner_radius=20, bg_color='#19233c',
+                             font=('Arial', 50, 'bold'))
         label.pack(expand=True, fill="both", padx=10, pady=10)
         self.lift()
         self.attributes("-topmost", True)
@@ -65,4 +92,4 @@ class Toast(ctk.CTkToplevel):
 
 if __name__ == '__main__':
     app = App()
-    app.mainloop()
+    app.mainloop() # Dauerschleife

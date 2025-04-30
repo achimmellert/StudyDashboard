@@ -1,6 +1,28 @@
 {
-    "1": [],
-    "2": [],
+    "1": [
+        {
+            "name": "Modul1",
+            "professor": "Herr Mustermann",
+            "topics": "Thema1\nThema2",
+            "notes": "blablabla",
+            "progress": 100,
+            "project": null,
+            "exam_date": null,
+            "exam_grade": 1.5
+        }
+    ],
+    "2": [
+        {
+            "name": "Modul2",
+            "professor": "Frau Musterfrau",
+            "topics": "",
+            "notes": "Notttt",
+            "progress": 100,
+            "project": null,
+            "exam_date": "2025-09-08",
+            "exam_grade": 3.0
+        }
+    ],
     "3": [],
     "4": [],
     "5": [],

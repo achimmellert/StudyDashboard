@@ -6,6 +6,9 @@ from visuals.settings import BG_COLOR, BORDER_COLOR, HEADER_BG_COLOR
 
 
 class Calendar(ctk.CTkToplevel):
+    """
+    Da Customtkinter keinen eingebauten Kalender besitzt, wird er hiermit manuell erstellt.
+    """
     def __init__(self, master, callback, initial_date=None):
         super().__init__(master)
         self.callback = callback
@@ -249,7 +252,7 @@ class SemesterProgressApp(ctk.CTkFrame):
             'master': self,
             'corner_radius': 10,
             'border_color': BORDER_COLOR,
-            'fg_color': 'transparent'
+            'fg_color': BG_COLOR
         }
         for i in range(1, 7):
             sem_frame = ctk.CTkFrame(**frame_opts)
@@ -264,7 +267,7 @@ class SemesterProgressApp(ctk.CTkFrame):
             sem_label.pack(side='left', fill='both', expand=True, pady=10, padx=5)
             self.semester_buttons.append(sem_label)
             prog = self.studium.get_semester_progress(str(i))
-            progress_label = ctk.CTkLabel(sem_frame, text=f"{prog}%", font=('Arial', 15, 'bold'), width=50)
+            progress_label = ctk.CTkLabel(sem_frame, text=f"{prog}%", font=('Arial', 15, 'bold'), width=50, text_color='white')
             progress_label.pack(side='right', padx=(0, 10), pady=5)
             self.progress_labels.append(progress_label)
             prog_bar = ctk.CTkProgressBar(sem_frame, width=100)
@@ -273,10 +276,10 @@ class SemesterProgressApp(ctk.CTkFrame):
             self.progress_bars.append(prog_bar)
         self.overall_frame = ctk.CTkFrame(self, corner_radius=30, fg_color=BG_COLOR)
         self.overall_frame.pack(side='bottom', expand=True, fill='both', padx=10, pady=10)
-        self.overall_label = ctk.CTkLabel(self.overall_frame, text="Gesamtfortschritt:", fg_color="transparent", font=('Arial', 20))
+        self.overall_label = ctk.CTkLabel(self.overall_frame, text="Gesamtfortschritt:", fg_color=BG_COLOR, font=('Arial', 20), text_color='white')
         self.overall_label.pack(side='left', expand=True, fill='both', padx=5, pady=5)
         overall_prog = self.studium.get_overall_progress()
-        self.overall_progress_label = ctk.CTkLabel(self.overall_frame, text=f"{overall_prog}%", fg_color="transparent", font=('Arial', 20))
+        self.overall_progress_label = ctk.CTkLabel(self.overall_frame, text=f"{overall_prog}%", fg_color=BG_COLOR, font=('Arial', 20),text_color='white')
         self.overall_progress_label.pack(side='right', expand=True, fill='both', padx=5, pady=5)
         self.after(2000, self.update_progress)
 

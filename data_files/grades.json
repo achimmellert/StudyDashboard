@@ -2,5 +2,13 @@
     {
         "count": 1,
         "average": 3.0
+    },
+    {
+        "count": 1,
+        "average": 1.5
+    },
+    {
+        "count": 2,
+        "average": 2.25
     }
 ]
