@@ -8,6 +8,7 @@ from visuals.settings import BG_COLOR, BORDER_COLOR, HEADER_BG_COLOR
 class Calendar(ctk.CTkToplevel):
     """
     Da Customtkinter keinen eingebauten Kalender besitzt, wird er hiermit manuell erstellt.
+    Wird automatisch geöffnet, wenn im ModuleSettingsWindow das Klausur-Datum eingestellt werden soll.
     """
     def __init__(self, master, callback, initial_date=None):
         super().__init__(master)
@@ -55,6 +56,10 @@ class Calendar(ctk.CTkToplevel):
 
 
 class ModuleSettingsWindow(ctk.CTkToplevel):
+    """
+    TopLevel-Fenster, welches sich öffnet, sobald die Einstellungen/Attribute eines Moduls festgelegt werden sollen.
+    Da in Tkinter üblich, werden die Widgets direkt in der init-Methode initialisiert.
+    """
     def __init__(self, semester_nr: str, module_index: int, modul: Module):
         super().__init__()
         self.semester_nr = semester_nr
@@ -62,6 +67,8 @@ class ModuleSettingsWindow(ctk.CTkToplevel):
         self.modul = modul
         self.title(f"Moduleinstellungen: {modul.name}")
         self.resizable(False, False)
+
+        # Festlegung der Tkinter-Variablen zur internen Speicherung
         self.name_var = tk.StringVar(value=modul.name)
         self.professor_var = tk.StringVar(value=modul.professor)
         self.topics_var = tk.StringVar(value=modul.topics)
@@ -71,6 +78,8 @@ class ModuleSettingsWindow(ctk.CTkToplevel):
         self.exam_date_var = tk.StringVar(value=modul.exam_date if modul.exam_date else "")
         self.exam_grade_var = tk.StringVar(value=str(modul.exam_grade) if modul.exam_grade else "")
         padding = 10
+
+        # Konfiguration der einzelnen Widgets
         self.name_label = ctk.CTkLabel(self, text="Modulname:")
         self.name_label.pack(padx=padding, pady=(padding, 0), anchor="w")
         self.name_entry = ctk.CTkEntry(self, textvariable=self.name_var)
@@ -124,10 +133,20 @@ class ModuleSettingsWindow(ctk.CTkToplevel):
             self.exam_grade_entry.configure(state='normal')
 
     def open_calendar(self):
+        """
+        Öffnet Kalender, sofern Klausurdatum geklickt wurde.
+        :return: None
+        """
         def on_date_selected(selected_date):
             self.exam_date_var.set(selected_date)
         Calendar(self, callback=on_date_selected, initial_date=self.exam_date_var.get())
+
     def save_changes(self):
+        """
+        Holt die Daten aus den einzelnen Tkinter-Variablen und speichert diese direkt in die zugehörigen Modul-Attribute
+        Außerdem werden die Änderungen ebenfalls direkt in die JSON-Datei gespeichert.
+        :return: None
+        """
         self.modul.name = self.name_var.get()
         self.modul.professor = self.professor_var.get()
         self.modul.topics = self.topics_textbox.get('1.0', 'end-1c')
@@ -144,6 +163,9 @@ class ModuleSettingsWindow(ctk.CTkToplevel):
 
 
 class ModuleOverviewWindow(ctk.CTkToplevel):
+    """
+    Weiteres TopLevel-Fenster, welches geöffnet wird, um alle Module eines Seemsters anzeigen zu lassen.
+    """
     def __init__(self, semester_nr: str):
         super().__init__()
         self.semester_nr = semester_nr
@@ -198,6 +220,9 @@ class ModuleOverviewWindow(ctk.CTkToplevel):
         ModuleDeleteWindow(self, self.semester_nr, module_index)
 
 class ModuleDeleteWindow(ctk.CTkToplevel):
+    """
+    TopLevel-Fenster zur Abfrage zur tatsächlichen Löschung eines Moduls.
+    """
     def __init__(self, parent, semester_nr: str, module_index: int):
         super().__init__(parent)
         self.parent = parent
@@ -231,6 +256,9 @@ class ModuleDeleteWindow(ctk.CTkToplevel):
 
 
 class SemesterProgressApp(ctk.CTkFrame):
+    """
+    Übergeordnetes Frame, welches das eigentliche Übersichtsfenster der Semester in der App anzeigt.
+    """
     def __init__(self, parent):
         super().__init__(parent)
         self.configure(fg_color=BG_COLOR)

@@ -7,6 +7,9 @@ from visuals.settings import BG_COLOR
 
 
 class GradeDevelopmentApp(ctk.CTkFrame):
+    """
+    Definiert den Aufbau des Notenverlaufs-Widgets als Liniendiagramm in der App.
+    """
     def __init__(self, parent):
         super().__init__(parent)
         self.grade_dev = GradeDevelopment()
@@ -21,6 +24,10 @@ class GradeDevelopmentApp(ctk.CTkFrame):
         self.graph_frame.pack(fill="both", expand=True, padx=10, pady=10)
 
     def plot_grade_development(self):
+        """
+        Plotten des Diagramms zum Notenverlauf mithilfe von FigureCanvasTkAgg
+        :return: None
+        """
         data = self.grade_dev.grade_history
         for widget in self.graph_frame.winfo_children():
             widget.destroy()
