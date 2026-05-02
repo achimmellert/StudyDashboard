@@ -25,6 +25,7 @@ class JSONFileManager:
         except (FileNotFoundError, json.JSONDecodeError):
             return None
 
+
     def save(self, data):
         """
         Speichert das Dictionary als JSON. Das Dictionary muss dabei im korrekten JSON-Format vorliegen.
@@ -53,6 +54,7 @@ class TextFileManager:
                 return file.read().strip()
         except FileNotFoundError:
             return ""
+
 
     def save(self, text: str):
         """

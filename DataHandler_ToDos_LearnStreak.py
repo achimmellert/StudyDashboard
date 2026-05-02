@@ -1,13 +1,11 @@
-# DataHandler_ToDos_LearnStreak.py
 from dataclasses import dataclass, asdict
 import os
 from typing import List
 from file_manager import JSONFileManager, TextFileManager
 
 
-# Basisverzeichnis und Dateipfade, sicherstellen, dass Ordner existiert
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-JSON_FILE_DIRECTORY = os.path.join(BASE_DIR, 'data_files')
+JSON_FILE_DIRECTORY = os.path.join(BASE_DIR, 'storage')
 os.makedirs(JSON_FILE_DIRECTORY, exist_ok=True)
 JSON_FILE_NAME = 'todos.json'
 JSON_FILE_ABS_PATH = os.path.join(JSON_FILE_DIRECTORY, JSON_FILE_NAME)
@@ -77,7 +75,7 @@ class ToDoList:
         return []
 
 
-FILE_DIRECTORY = 'data_files'
+FILE_DIRECTORY = 'storage'
 os.makedirs(FILE_DIRECTORY, exist_ok=True)
 FILE_NAME = 'learn_streak.txt'
 ABSOLUTE_FILE_PATH = os.path.abspath(os.path.join(FILE_DIRECTORY, FILE_NAME))
@@ -99,13 +97,16 @@ class LearnStreak:
             print(f"Warnung: Ungültiger Inhalt in {ABSOLUTE_FILE_PATH}. Setze Streak auf 0.")
             return 0
 
+
     def increase(self):
         self.learn_streak += 1
         self.save_learn_streak()
 
+
     def save_learn_streak(self):
         manager = TextFileManager(ABSOLUTE_FILE_PATH)
         manager.save(str(self.learn_streak))
+
 
     def reset(self):
         self.learn_streak = 0

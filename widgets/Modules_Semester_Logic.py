@@ -1,4 +1,3 @@
-# Modules_Semester_Logic.py
 import customtkinter as ctk
 import tkinter as tk
 from DataHandler_Studium import Studies, Module, GradeDevelopment
@@ -12,22 +11,27 @@ class Calendar(ctk.CTkToplevel):
     """
     def __init__(self, master, callback, initial_date=None):
         super().__init__(master)
+
         self.callback = callback
         self.title("Datum wählen")
         self.geometry("250x150")
         self.resizable(False, False)
+
         label_day = ctk.CTkLabel(self, text="Tag:")
         label_day.grid(row=0, column=0, padx=5, pady=5, sticky="e")
         self.spin_day = tk.Spinbox(self, from_=1, to=31, width=5, font=("Arial", 12))
         self.spin_day.grid(row=0, column=1, padx=5, pady=5)
+
         label_month = ctk.CTkLabel(self, text="Monat:")
         label_month.grid(row=1, column=0, padx=5, pady=5, sticky="e")
         self.spin_month = tk.Spinbox(self, from_=1, to=12, width=5, font=("Arial", 12))
         self.spin_month.grid(row=1, column=1, padx=5, pady=5)
+
         label_year = ctk.CTkLabel(self, text="Jahr:")
         label_year.grid(row=2, column=0, padx=5, pady=5, sticky="e")
         self.spin_year = tk.Spinbox(self, from_=2025, to=2100, width=5, font=("Arial", 12))
         self.spin_year.grid(row=2, column=1, padx=5, pady=5)
+
         if initial_date:
             try:
                 year, month, day = map(int, initial_date.split("-"))
@@ -39,6 +43,7 @@ class Calendar(ctk.CTkToplevel):
                 self.spin_day.insert(0, str(day))
             except Exception:
                 pass
+
         self.ok_button = ctk.CTkButton(self, text="OK", command=self.on_ok)
         self.ok_button.grid(row=3, column=0, columnspan=2, pady=10)
         self.lift()
@@ -84,45 +89,58 @@ class ModuleSettingsWindow(ctk.CTkToplevel):
         self.name_label.pack(padx=padding, pady=(padding, 0), anchor="w")
         self.name_entry = ctk.CTkEntry(self, textvariable=self.name_var)
         self.name_entry.pack(padx=padding, pady=(0, padding), fill="x")
+
         self.prof_label = ctk.CTkLabel(self, text="Professor:")
         self.prof_label.pack(padx=padding, pady=(padding, 0), anchor="w")
         self.prof_entry = ctk.CTkEntry(self, textvariable=self.professor_var)
         self.prof_entry.pack(padx=padding, pady=(0, padding), fill="x")
+
         self.topics_label = ctk.CTkLabel(self, text='Themen')
         self.topics_label.pack(padx=padding, pady=(padding, 0), anchor="w")
         self.topics_textbox = ctk.CTkTextbox(self, height=100)
         self.topics_textbox.pack(padx=padding, pady=(0, padding), fill="x")
         self.topics_textbox.insert('1.0', self.topics_var.get())
+
         self.notes_label = ctk.CTkLabel(self, text="Notizen:")
         self.notes_label.pack(padx=padding, pady=(padding, 0), anchor="w")
         self.notes_entry = ctk.CTkEntry(self, textvariable=self.notes_var)
         self.notes_entry.pack(padx=padding, pady=(0, padding), fill="x")
+
         self.progress_label = ctk.CTkLabel(self, text="Fortschritt (0-100):")
         self.progress_label.pack(padx=padding, pady=(padding, 0), anchor="w")
         self.progress_slider = ctk.CTkSlider(self, from_=0, to=100, variable=self.progress_var, command=self.check_slider)
         self.progress_slider.pack(padx=padding, pady=(0, padding), fill="x")
+
         self.project_label = ctk.CTkLabel(self, text="Projekt (falls vorhanden):")
         self.project_label.pack(padx=padding, pady=(padding, 0), anchor="w")
         self.project_entry = ctk.CTkEntry(self, textvariable=self.project_var)
         self.project_entry.pack(padx=padding, pady=(0, padding), fill="x")
+
         self.exam_label = ctk.CTkLabel(self, text="Prüfungstermin (yyyy-mm-dd):")
         self.exam_label.pack(padx=padding, pady=(padding, 0), anchor="w")
+
         self.date_frame = ctk.CTkFrame(self)
         self.date_frame.pack(padx=padding, pady=(0, padding), fill="x")
+
         self.exam_entry = ctk.CTkEntry(self.date_frame, textvariable=self.exam_date_var, state='disabled')
         self.exam_entry.pack(side="left", expand=True, fill="x")
+
         self.date_button = ctk.CTkButton(self.date_frame, text="Datum wählen", command=self.open_calendar)
         self.date_button.pack(side="right", padx=(padding, 0))
+
         self.exam_grade_label = ctk.CTkLabel(self, text='Note:')
         self.exam_grade_label.pack(padx=padding, pady=(padding, 0), anchor="w")
         self.exam_grade_entry = ctk.CTkEntry(self, textvariable=self.exam_grade_var, state='disabled')
         self.exam_grade_entry.pack(padx=padding, pady=(0, padding), fill="x")
+
         self.button_frame = ctk.CTkFrame(self)
         self.button_frame.pack(padx=padding, pady=padding, fill="x")
         self.save_button = ctk.CTkButton(self.button_frame, text="Speichern", command=self.save_changes)
         self.save_button.pack(side="left", padx=(0, padding))
+
         self.cancel_button = ctk.CTkButton(self.button_frame, text="Abbrechen", command=self.destroy)
         self.cancel_button.pack(side="right", padx=(padding, 0))
+
         self.lift()
         self.focus_force()
         self.attributes("-topmost", True)

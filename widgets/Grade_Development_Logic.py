@@ -1,4 +1,3 @@
-# Grade_Development_Logic.py
 import customtkinter as ctk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
@@ -52,8 +51,8 @@ class GradeDevelopmentApp(ctk.CTkFrame):
         ax.set_facecolor(BG_COLOR)
         for spine in ax.spines.values():
             spine.set_color('none')
-        # Nur ganze Zahlen auf der x-Achse anzeigen
-        ax.set_xticks(counts)  # Setze die Ticks auf die Werte in counts
+
+        ax.set_xticks(counts)
         self.canvas = FigureCanvasTkAgg(fig, master=self.graph_frame)
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(fill="both", expand=True)

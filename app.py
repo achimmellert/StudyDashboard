@@ -1,4 +1,3 @@
-# app.py
 # Start menu
 import customtkinter as ctk
 from visuals.settings import BG_COLOR
@@ -12,7 +11,7 @@ class App(ctk.CTk):
     def __init__(self):
         super().__init__()
 
-        # Konfiguration der eigentlichen App
+        # Konfiguration
         self.title('Mein Dashboard fürs Studium')
         self.geometry('1600x1100')
         self.configure(fg_color=BG_COLOR)
@@ -22,11 +21,12 @@ class App(ctk.CTk):
         self.rowconfigure(0, weight=1)
         self.rowconfigure(1, weight=5)
 
-        # Direkte Ausführung der Methoden
+        # Aufbau der Widgets
         self.create_frames()
         self.create_widgets()
         self.place_widgets()
         self.show_toast()
+
 
     def create_frames(self):
         """
@@ -35,12 +35,16 @@ class App(ctk.CTk):
         """
         self.left_frame = ctk.CTkFrame(self, fg_color='white')
         self.left_frame.grid(row=0, column=0, rowspan=2, sticky='nsew', padx=10, pady=10)
+
         self.top_frame = ctk.CTkFrame(self, fg_color='white')
         self.top_frame.grid(row=0, column=1, sticky='nsew', padx=10, pady=10)
+
         self.bottom_frame = ctk.CTkFrame(self, fg_color='white')
         self.bottom_frame.grid(row=1, column=1, sticky='nsew', padx=10, pady=10)
+
         self.right_frame = ctk.CTkFrame(self, fg_color='white')
         self.right_frame.grid(row=0, column=2, rowspan=2, sticky='nsew', padx=10, pady=10)
+
 
     def create_widgets(self):
         """
@@ -53,6 +57,7 @@ class App(ctk.CTk):
         self.key_metrics = Key_Metrics_Logic.KeyMetricsApp(self.right_frame)
         self.grade_development = Grade_Development_Logic.GradeDevelopmentApp(self.bottom_frame)
 
+
     def place_widgets(self):
         """
         Platziert die erstellten Instanzen einfach mit pack()
@@ -63,6 +68,7 @@ class App(ctk.CTk):
         self.to_do.pack(expand=True, fill='both', padx=5, pady=5)
         self.key_metrics.pack(expand=True, fill='both', padx=5, pady=5)
         self.grade_development.pack(expand=True, fill='both', padx=20, pady=20)
+
 
     def show_toast(self):
         """
@@ -78,6 +84,7 @@ class Toast(ctk.CTkToplevel):
     """
     def __init__(self, parent):
         super().__init__(parent)
+
         self.title('')
         self.resizable(False, False)
         self.overrideredirect(True)
@@ -92,4 +99,4 @@ class Toast(ctk.CTkToplevel):
 
 if __name__ == '__main__':
     app = App()
-    app.mainloop() # Dauerschleife
+    app.mainloop()
