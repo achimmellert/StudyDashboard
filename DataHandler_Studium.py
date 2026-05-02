@@ -1,13 +1,12 @@
-# DataHandler_Studium.py
 import json
 from dataclasses import dataclass, asdict
 from typing import List, Dict
 import os
 from file_manager import JSONFileManager
 
-# Basisverzeichnis und Dateipfade, sicherstellen, dass Ordner existiert
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-JSON_FILE_DIRECTORY = os.path.join(BASE_DIR, 'data_files')
+JSON_FILE_DIRECTORY = os.path.join(BASE_DIR, 'storage')
 os.makedirs(JSON_FILE_DIRECTORY, exist_ok=True)
 
 JSON_FILE_NAME = 'studium.json'
@@ -68,6 +67,7 @@ class Semester:
         if not self.modules:
             return 0
         total = sum(m.get_progress() for m in self.modules)
+
         return total // len(self.modules)
 
 
@@ -80,6 +80,7 @@ class Studies:
     def __new__(cls):  # Singleton
         if cls._instance is None:
             cls._instance = super(Studies, cls).__new__(cls) # ruft die __new__-Methode von object auf
+
         return cls._instance
 
     def __init__(self) -> None:
@@ -90,12 +91,15 @@ class Studies:
         if not hasattr(self, "semester_dict"):
             self.semester_dict = {str(i): Semester(str(i)) for i in range(1, 7)}
             loaded_data = self._load_from_json()
+
             for sem, mods in loaded_data.items():
                 self.semester_dict[sem].modules = mods  # Liste wird einmal vollständig überschrieben
+
 
     def add_modul(self, semester: str, modul: Module):
         self.semester_dict[semester].add_modul(modul)
         self._save_to_json()
+
 
     def delete_modul(self, semester: str, module_index: int):
         """
@@ -111,8 +115,10 @@ class Studies:
             except IndexError:
                 print(f"Modul an Index {module_index} existiert nicht.")
 
+
     def get_modules_by_semester(self, semester: str) -> List[Dict]:
         return self.semester_dict[semester].get_serialized_modules()
+
 
     def get_all_modules(self):
         """
@@ -122,10 +128,13 @@ class Studies:
         all_modules = []
         for sem_obj in self.semester_dict.values():
             all_modules.extend(sem_obj.modules)
+
         return all_modules
+
 
     def get_semester_progress(self, semester: str) -> int:
         return self.semester_dict[semester].get_semester_progress()
+
 
     def get_overall_progress(self) -> int:
         """
@@ -140,7 +149,9 @@ class Studies:
                 overall_modules += 1
         if overall_modules == 0:
             return 0
+
         return (overall_progress * 100) // (overall_modules * 100)
+
 
     def get_gpa(self) -> float:
         """
@@ -156,7 +167,9 @@ class Studies:
                     sum_grades += module.get_grade()
         if overall_modules_with_full_progress == 0:
             return 0
+
         return round((sum_grades / overall_modules_with_full_progress), 2)
+
 
     def _save_to_json(self) -> None:  # Persistenz
         data = {}
@@ -164,6 +177,7 @@ class Studies:
             data[sem_nr] = sem_obj.get_serialized_modules()
         manager = JSONFileManager(JSON_FILE_ABS_PATH)
         manager.save(data)
+
 
     def _load_from_json(self) -> Dict[str, List[Module]]:
         manager = JSONFileManager(JSON_FILE_ABS_PATH)
@@ -187,8 +201,10 @@ class GradeDevelopment:
             self.update_callback = None  # Speicherung des Callbacks
             self._load_from_json()
 
+
     def set_update_callback(self, callback):
         self.update_callback = callback  # Setzung des Callbacks (Plot)
+
 
     def update(self):
         """Aktualisiert den Notenverlauf mit dem aktuellen GPA aus Studies."""
@@ -204,10 +220,12 @@ class GradeDevelopment:
         if self.update_callback:
             self.update_callback()  # Aufruf des Callbacks (Plot-Funktion)
 
+
     def _save_to_json(self):
         """Speichert den Notenverlauf in grades.json."""
         manager = JSONFileManager(GRADE_JSON_PATH)
         manager.save(self.grade_history)
+
 
     def _load_from_json(self):
         """Lädt den Notenverlauf aus grades.json."""

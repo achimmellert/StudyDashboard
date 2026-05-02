@@ -1,11 +1,10 @@
-# Key_Metrics_Logic.py
 import os.path
 import customtkinter as ctk
 from DataHandler_Studium import Studies
 from visuals.settings import BG_COLOR, BORDER_COLOR, HEADER_BG_COLOR
 from DataHandler_ToDos_LearnStreak import LearnStreak
 
-FILE_DIRECTORY = '../data_files'
+FILE_DIRECTORY = '../storage'
 os.makedirs(FILE_DIRECTORY, exist_ok=True)
 FILE_NAME = 'learn_streak.txt'
 ABSOLUTE_FILE_PATH = os.path.abspath(os.path.join(FILE_DIRECTORY, FILE_NAME))

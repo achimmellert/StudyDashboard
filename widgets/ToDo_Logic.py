@@ -1,4 +1,3 @@
-# ToDo_Logic.py
 import customtkinter as ctk
 import tkinter as tk
 from CTkMessagebox import CTkMessagebox
@@ -6,12 +5,14 @@ from DataHandler_Studium import Studies
 from DataHandler_ToDos_LearnStreak import ToDoList, ToDo
 from visuals.settings import BG_COLOR
 
+
 class ToDoApp(ctk.CTkFrame):
     """
     Definiert den Aufbau des To-Do-Widgets in der App.
     """
     def __init__(self, parent):
         super().__init__(master=parent, fg_color=BG_COLOR)
+
         self.studium = Studies() # Studies-Instanz für dessen Methoden
         self.todos = ToDoList() # ToDoList-Instanz für dessen Methoden
 
@@ -26,18 +27,23 @@ class ToDoApp(ctk.CTkFrame):
             font=('Arial', 30, 'bold')
         )
         self.header.pack(side='top', fill='both', pady=10, padx=10)
+
         self.todos_frame = ctk.CTkFrame(self)
         self.todos_frame.pack(expand=True, fill='both')
         self.todo_widgets = []
+
         self.place_todos()
+
         self.button_frame = ctk.CTkFrame(self, fg_color='transparent')
         self.button_frame.pack(side='bottom', pady=10)
         self.button = ctk.CTkButton(
             self.button_frame, text='Neues To-Do hinzufügen', font=('Arial', 15), command=self.create_add_todo_window, corner_radius=10)
         self.button.pack()
 
+
     def create_add_todo_window(self):
         AddToDoWindow(self, self.studium)
+
 
     def save_new_todo(self, description, module, time, is_done=False):
         """
@@ -48,13 +54,16 @@ class ToDoApp(ctk.CTkFrame):
         self.refresh_todos()
         CTkMessagebox(title='Info', message='Neues To-Do erfolgreich gespeichert', icon='info')
 
+
     def delete_todo(self, todo: ToDo):
         self.todos.remove_todo(todo.description)
         self.refresh_todos()
         CTkMessagebox(title='Info', message='To-Do wurde gelöscht', icon='info')
 
+
     def refresh_todos(self):
         self.place_todos()
+
 
     def place_todos(self):
         """
@@ -64,7 +73,9 @@ class ToDoApp(ctk.CTkFrame):
         for widget in self.todo_widgets:
             widget.destroy()
         self.todo_widgets = []
+
         todos = self.todos.load_from_json()
+
         for todo in todos:
             frame = ctk.CTkFrame(self.todos_frame)
             frame.pack(fill='x', pady=2, padx=5)
@@ -78,6 +89,7 @@ class ToDoApp(ctk.CTkFrame):
                 frame, text='✅', width=60, font=('Arial', 20),
                 command=lambda t=todo: self.delete_todo(t)
             )
+
             delete_btn.pack(side='right', padx=10)
             self.todo_widgets.append(frame)
 
@@ -88,6 +100,7 @@ class AddToDoWindow(ctk.CTkToplevel):
     """
     def __init__(self, todoapp: ToDoApp, studium: Studies):
         super().__init__()
+
         self.todoapp = todoapp
         self.studium = studium
 
@@ -107,9 +120,11 @@ class AddToDoWindow(ctk.CTkToplevel):
         ctk.CTkLabel(self, text='Beschreibung:').pack(pady=(10, 0))
         self.description_entry = ctk.CTkEntry(self, textvariable=self.description_var)
         self.description_entry.pack(fill='x', padx=10)
+
         ctk.CTkLabel(self, text='Module auswählen:').pack(pady=(10, 0))
         self.module_selection = ctk.CTkComboBox(self, values=module_names, variable=self.module_var)
         self.module_selection.pack(fill='x', padx=10, pady=5)
+
         ctk.CTkLabel(self, text='Zeit in Stunden:').pack(pady=(10, 0))
         self.time_entry = ctk.CTkEntry(self, textvariable=self.time_var)
         self.time_entry.pack(fill='x', padx=10, pady=5)
@@ -120,6 +135,7 @@ class AddToDoWindow(ctk.CTkToplevel):
         )
         save_button.pack(side='bottom', pady=15)
 
+
     def save_todo(self):
         """
         Speichert das eingegebene To-Do ab und löscht die Einträge.
@@ -128,6 +144,7 @@ class AddToDoWindow(ctk.CTkToplevel):
         description = self.description_var.get()
         module = self.module_var.get()
         time = self.time_var.get()
+
         if description and module and time:
             try:
                 time_float = float(time)
